@@ -16,3 +16,8 @@ func CreateUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 func Login(w http.ResponseWriter, r *http.Request, p httprouter.Param) {
 	io.WriteString(w, "login")
 }
+
+// DeleteUser 用户注销
+func DeleteUser(w http.ResponseWriter, r *http.Request, p httprouter.Param) {
+	io.WriteString(w, "delete user")
+}

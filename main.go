@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
@@ -14,13 +13,12 @@ func RegisterHandlers() *httprouter.Router {
 
 	router.POST("/user", CreateUser)
 	router.POST("/user/:user_name", Login)
+	router.DELETE("/user/:user_name", DeleteUser)
 
 	return router
 }
 
 func main() {
-	fmt.Println("start")
 	r := RegisterHandlers()
 	http.ListenAndServe(":8082", r)
-	fmt.Println("end")
 }

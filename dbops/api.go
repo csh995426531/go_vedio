@@ -1,17 +1,16 @@
 package dbops
 
-import "database/sql"
-
-func openconn() *sql.DB {
-
-}
-
-// AddUserCredential 添加用户认证
+// AddUserCredential 添加用户
 func AddUserCredential(loginname string, pwd string) error {
 
 }
 
-// GetUserCredential 获取用户认证
+// GetUserCredential 获取用户
 func GetUserCredential(loginname string) (string, error) {
+
+}
+
+//DeleteUserCredential 删除用户
+func DeleteUserCredential(loginname string, pwd string) error {
 
 }
