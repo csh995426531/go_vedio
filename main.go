@@ -12,7 +12,11 @@ import (
 func RegisterHandlers() *httprouter.Router {
 	router := httprouter.New()
 
-	router.POST("/user", CreateUser)
+	router.POST("/user", CreateUser) //创建用户
+
+	router.POST("/user/:user_name", Login) //用户登录
+
+	router.DELETE("/user/:user_name", DeleteUser) //用户注销
 
 	return router
 }
@@ -20,6 +24,6 @@ func RegisterHandlers() *httprouter.Router {
 func main() {
 	fmt.Println("start")
 	r := RegisterHandlers()
-	http.ListenAndServe(":8082", r)
+	http.ListenAndServe(":8088", r)
 	fmt.Println("end")
 }

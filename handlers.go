@@ -11,3 +11,13 @@ import (
 func CreateUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	io.WriteString(w, "create user hander")
 }
+
+// Login 登录
+func Login(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	io.WriteString(w, "login")
+}
+
+// DeleteUser 注销用户
+func DeleteUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	io.WriteString(w, "delete user")
+}
