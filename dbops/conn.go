@@ -3,7 +3,7 @@ package dbops
 import (
 	"database/sql"
 
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql" //rom驱动
 )
 
 var (
@@ -17,7 +17,7 @@ func init() {
 		panic(err.Error())
 	}
 
-	defer dbConn.close()
+	defer dbConn.Close()
 
 	err = dbConn.Ping()
 	if err != nil {
