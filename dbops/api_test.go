@@ -2,6 +2,8 @@ package dbops
 
 import "testing"
 
+var tempVid string
+
 func truncateTables() {
 	dbConn.Exec("truncate users")
 	dbConn.Exec("truncate vedio_info")
@@ -53,5 +55,50 @@ func testRegetUser(t *testing.T) {
 
 	if pwd != "" {
 		t.Error("Deleting user fail")
+	}
+}
+
+func TestVedioWorkFlow(t *testing.T) {
+	t.Run("AddVedio", testAddVedio)
+	t.Run("GetVedio", testGetVedio)
+	t.Run("DelVedio", testDelVedio)
+	t.Run("RegetVedio", testRegetVedio)
+}
+
+func testAddVedio(t *testing.T) {
+	info, err := AddNewVedio(1, "test")
+
+	if err != nil {
+		t.Errorf("Error of AddVedio : %v", err)
+	}
+
+	if info.Name != "test" {
+		t.Error("Error of AddVedio Name Error")
+	}
+	tempVid = info.Id
+}
+
+func testGetVedio(t *testing.T) {
+	info, err := GetVedio(tempVid)
+	if err != nil {
+		t.Errorf("Error of GetVedio : %v", err)
+	}
+
+	if info.Name != "test" {
+		t.Error("Error of GetVedio Name Error")
+	}
+}
+
+func testDelVedio(t *testing.T) {
+	err := DelVedio(tempVid)
+	if err != nil {
+		t.Errorf("Error of DelVedio : %v", err)
+	}
+}
+
+func testRegetVedio(t *testing.T) {
+	_, err := GetVedio(tempVid)
+	if err != nil {
+		t.Errorf("Error of RegetVedio : %v", err)
 	}
 }

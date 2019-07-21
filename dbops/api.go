@@ -3,6 +3,9 @@ package dbops
 import (
 	"database/sql"
 	"log"
+	"time"
+	"vedio/defs"
+	"vedio/utils"
 )
 
 // AddUserCredential 添加用户
@@ -15,7 +18,7 @@ func AddUserCredential(loginName string, pwd string) error {
 	if err != nil {
 		return err
 	}
-	stmtIns.Close()
+	defer stmtIns.Close()
 	return nil
 }
 
@@ -33,7 +36,7 @@ func GetUserCredential(loginName string) (string, error) {
 		log.Printf("%s", err)
 		return "", err
 	}
-	stmtOut.Close()
+	defer stmtOut.Close()
 	return pwd, nil
 }
 
@@ -48,6 +51,71 @@ func DeleteUserCredential(loginName string, pwd string) error {
 	if err != nil {
 		return err
 	}
-	stmtDel.Close()
+	defer stmtDel.Close()
+	return nil
+}
+
+// AddNewVedio 新增视频
+func AddNewVedio(aid int, name string) (*defs.VedioInfo, error) {
+
+	vid, err := utils.NewUUID()
+	if err != nil {
+		return nil, err
+	}
+	time := time.Now()
+	ctime := time.Format("Jan 02 2006 15:04:05")
+	stmtIns, err := dbConn.Prepare("INSERT INTO vedio_info (id, author_id, name, display_ctime) VALUES(?, ?, ?, ?)")
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = stmtIns.Exec(vid, aid, name, ctime)
+	if err != nil {
+		return nil, err
+	}
+	defer stmtIns.Close()
+
+	res := &defs.VedioInfo{Id: vid, AuthorId: aid, Name: name, DisplayCtime: ctime}
+
+	return res, nil
+}
+
+//GetVedio 获取视频
+func GetVedio(vid string) (*defs.VedioInfo, error) {
+
+	stmtOut, err := dbConn.Prepare("SELECT author_id,name,display_ctime FROM vedio_info WHERE id = ?")
+	if err != nil {
+		return nil, err
+	}
+
+	var aid int
+	var name string
+	var ctime string
+
+	err = stmtOut.QueryRow(vid).Scan(&aid, &name, &ctime)
+	if err != nil && err != sql.ErrNoRows {
+		return nil, err
+	}
+
+	defer stmtOut.Close()
+
+	res := &defs.VedioInfo{Id: vid, AuthorId: aid, Name: name, DisplayCtime: ctime}
+
+	return res, nil
+}
+
+//DelVedio 删除视频
+func DelVedio(vid string) error {
+
+	stmtDel, err := dbConn.Prepare("DELETE FROM vedio_info WHERE id = ?")
+	if err != nil {
+		return err
+	}
+	_, err = stmtDel.Exec(vid)
+	if err != nil {
+		return err
+	}
+
+	defer stmtDel.Close()
 	return nil
 }
