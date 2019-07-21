@@ -119,3 +119,56 @@ func DelVedio(vid string) error {
 	defer stmtDel.Close()
 	return nil
 }
+
+// AddComments 增加评论
+func AddComments(vid string, aid int, content string) error {
+	cid, err := utils.NewUUID()
+	if err != nil {
+		return err
+	}
+	stmtIns, err := dbConn.Prepare("INSERT INTO comments (id, vedio_id, author_id, content) VALUES (?, ?, ?, ?)")
+	if err != nil {
+		return err
+	}
+
+	_, err = stmtIns.Exec(cid, vid, aid, content)
+	if err != nil {
+		return err
+	}
+
+	defer stmtIns.Close()
+	return nil
+}
+
+// ListComments 评论列表
+func ListComments(vid string, from, to int) ([]*defs.Comment, error) {
+	stmtOut, err := dbConn.Prepare(` SELECT comments.id, users.Login_name, comments.content FROM comments
+		INNER JOIN users ON comments.author_id = users.id
+		WHERE comments.vedio_id = ? AND comments.time > FROM_UNIXTIME(?) AND comments.time <= FROM_UNIXTIME(?)`)
+
+	var res []*defs.Comment
+
+	if err != nil {
+		return res, err
+	}
+
+	rows, err := stmtOut.Query(vid, from, to)
+	if err != nil {
+		return res, err
+	}
+
+	for rows.Next() {
+		var id, name, content string
+
+		err := rows.Scan(&id, &name, &content)
+		if err != nil {
+			return res, err
+		}
+
+		temp := &defs.Comment{Id: id, VideoId: vid, Author: name, Content: content}
+		res = append(res, temp)
+	}
+
+	defer stmtOut.Close()
+	return res, nil
+}

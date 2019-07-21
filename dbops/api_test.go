@@ -1,6 +1,11 @@
 package dbops
 
-import "testing"
+import (
+	"fmt"
+	"strconv"
+	"testing"
+	"time"
+)
 
 var tempVid string
 
@@ -27,28 +32,28 @@ func TestUserWorkFlow(t *testing.T) {
 }
 
 func testAddUser(t *testing.T) {
-	err := AddUserCredential("test", "123")
+	err := AddUserCredential("崔赛航", "123")
 	if err != nil {
 		t.Errorf("Error of AddUser: %v", err)
 	}
 }
 
 func testGetUser(t *testing.T) {
-	pwd, err := GetUserCredential("test")
+	pwd, err := GetUserCredential("崔赛航")
 	if pwd != "123" || err != nil {
 		t.Errorf("Error of GetUser: %v", err)
 	}
 }
 
 func testDelUser(t *testing.T) {
-	err := DeleteUserCredential("test", "123")
+	err := DeleteUserCredential("崔赛航", "123")
 	if err != nil {
 		t.Errorf("Error of DelUser: %v", err)
 	}
 }
 
 func testRegetUser(t *testing.T) {
-	pwd, err := GetUserCredential("test")
+	pwd, err := GetUserCredential("崔赛航")
 	if err != nil {
 		t.Errorf("Error of RegetUser: %v", err)
 	}
@@ -100,5 +105,33 @@ func testRegetVedio(t *testing.T) {
 	_, err := GetVedio(tempVid)
 	if err != nil {
 		t.Errorf("Error of RegetVedio : %v", err)
+	}
+}
+
+func TestComment(t *testing.T) {
+	truncateTables()
+	t.Run("AddUser", testAddUser)
+	t.Run("AddComment", testAddComment)
+	t.Run("ListComment", testListComment)
+}
+
+func testAddComment(t *testing.T) {
+	err := AddComments("1", 1, "视频内容挺精彩的")
+	if err != nil {
+		t.Errorf("Error of AddComment : %v", err)
+	}
+	AddComments("1", 1, "视频内容挺无聊的")
+}
+
+func testListComment(t *testing.T) {
+	to, _ := strconv.Atoi(strconv.FormatInt(time.Now().UnixNano()/1000000000, 10))
+	from := to - 86400
+	res, err := ListComments("1", from, to)
+	if err != nil {
+		t.Errorf("Error of ListComment : %v", err)
+	}
+	fmt.Printf("comments: %v \n", res)
+	for k, vv := range res {
+		fmt.Printf("comment: %d, %v \n", k, vv)
 	}
 }
