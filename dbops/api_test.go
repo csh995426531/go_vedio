@@ -47,7 +47,11 @@ func testDelUser(t *testing.T) {
 
 func testRegetUser(t *testing.T) {
 	pwd, err := GetUserCredential("test")
-	if pwd != "" || err != nil {
+	if err != nil {
 		t.Errorf("Error of RegetUser: %v", err)
+	}
+
+	if pwd != "" {
+		t.Error("Deleting user fail")
 	}
 }

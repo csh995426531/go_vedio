@@ -12,13 +12,13 @@ var (
 )
 
 func init() {
-	dbConn, err = sql.Open("mysql", "root:123456@tcp(localhost:3306)/vedio?charset=utf8")
+	dbConn, err = sql.Open("mysql", "root:123456@tcp(127.0.0.1:3306)/vedio?charset=utf8")
 
 	if err != nil {
 		panic(err.Error())
 	}
 
-	defer dbConn.Close()
+	// defer dbConn.Close()
 
 	err = dbConn.Ping()
 	if err != nil {
