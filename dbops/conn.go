@@ -17,7 +17,7 @@ func init() {
 		panic(err.Error())
 	}
 
-	defer dbConn.Close()
+	// defer dbConn.Close()
 
 	err = dbConn.Ping()
 	if err != nil {
