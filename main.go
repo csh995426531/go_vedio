@@ -27,3 +27,20 @@ func main() {
 	http.ListenAndServe(":8088", r)
 	fmt.Println("end")
 }
+	return new
+}
+
+func (m middleWareHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	//check session
+	ValidateUserSession(r)
+
+	m.r.ServeHTTP(w, r)
+}
+
+func main() {
+
+	r := RegisterHandlers()
+	handler := newMiddleWareHandler(r)
+	http.ListenAndServe(":8088", handler)
+
+}

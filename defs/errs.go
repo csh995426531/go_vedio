@@ -17,4 +17,8 @@ var (
 	ErrorRequestBodyParseFaild = ErrResponse{HttpSC: 400, Error: Err{Error: "request body parse fail", ErrorCode: "001"}}
 	// ErrorNotAuthUser 请求用户认证失败
 	ErrorNotAuthUser = ErrResponse{HttpSC: 401, Error: Err{Error: "user  auth fail", ErrorCode: "002"}}
+	// ErrorDBError DB失败
+	ErrorDBError = ErrResponse{HttpSC: 500, Error: Err{Error: "DB ops failed", ErrorCode: "003"}}
+	// ErrorInternalFaults 内部故障
+	ErrorInternalFaults = ErrResponse{HttpSC: 500, Error: Err{Error: "Internal service error", ErrorCode: "004"}}
 )
