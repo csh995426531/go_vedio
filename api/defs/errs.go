@@ -22,5 +22,5 @@ var (
 	// ErrorInternalFaults 内部故障
 	ErrorInternalFaults = ErrResponse{HttpSC: 500, Error: Err{Error: "Internal service error", ErrorCode: "004"}}
 	// ErrorSessionError Session处理错误
-	ErrorSessionError = ErrResponse(HttpSC: 500, Error: Err{Error: "Session handler error", ErrorCode: "005"})
+	ErrorSessionError = ErrResponse{HttpSC: 500, Error: Err{Error: "Session handler error", ErrorCode: "005"}}
 )
