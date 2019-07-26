@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	"vedio/defs"
+
+	"github.com/csh995426531/go_vedio/api/defs"
 )
 
 // sendErrorResponse 设置错误响应
