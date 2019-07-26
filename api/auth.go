@@ -2,16 +2,20 @@ package main
 
 import (
 	"net/http"
-	"vedio/defs"
-	"vedio/session"
+
+	"github.com/csh995426531/go_vedio/api/defs"
+	"github.com/csh995426531/go_vedio/api/session"
 )
 
-var Header_Field_Session = "X-Session-Id"
-var Header_Field_Uname = "X-User-Name"
+//HeaderFieldSession session标识
+var HeaderFieldSession = "X-Session-Id"
+
+//HeaderFieldUname user标识
+var HeaderFieldUname = "X-User-Name"
 
 // ValidateUserSession 验证用户session
 func ValidateUserSession(r *http.Request) bool {
-	sid := r.Header.Get(Header_Field_Session)
+	sid := r.Header.Get(HeaderFieldSession)
 	if len(sid) == 0 {
 		return false
 	}
@@ -21,13 +25,13 @@ func ValidateUserSession(r *http.Request) bool {
 		return false
 	}
 
-	r.Header.Add(Header_Field_Uname, uname)
+	r.Header.Add(HeaderFieldUname, uname)
 	return true
 }
 
-// ValidateUser
+// ValidateUser 验证用户
 func ValidateUser(w http.ResponseWriter, r *http.Request) bool {
-	uname := r.Header.Get(Header_Field_Uname)
+	uname := r.Header.Get(HeaderFieldUname)
 	if len(uname) == 0 {
 		sendErrorResponse(w, defs.ErrorNotAuthUser)
 		return false

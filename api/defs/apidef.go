@@ -1,10 +1,12 @@
 package defs
 
+//UserCredential 用户
 type UserCredential struct {
 	Username string `json:"user_name"`
 	Pwd      string `json:"pwd"`
 }
 
+//VedioInfo 视频信息
 type VedioInfo struct {
 	Id           string
 	AuthorId     int
@@ -12,6 +14,7 @@ type VedioInfo struct {
 	DisplayCtime string
 }
 
+//Comment 评论
 type Comment struct {
 	Id      string
 	VideoId string
@@ -19,7 +22,8 @@ type Comment struct {
 	Content string
 }
 
+//SimpleSession session
 type SimpleSession struct {
 	Username string //login name
-	TTL int64
+	TTL      int64
 }

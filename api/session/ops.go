@@ -3,9 +3,10 @@ package session
 import (
 	"sync"
 	"time"
-	"vedio/dbops"
-	"vedio/defs"
-	"vedio/utils"
+
+	"github.com/csh995426531/go_vedio/api/dbops"
+	"github.com/csh995426531/go_vedio/api/defs"
+	"github.com/csh995426531/go_vedio/api/utils"
 )
 
 var sessionMap *sync.Map

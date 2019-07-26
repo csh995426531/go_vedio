@@ -3,7 +3,8 @@ package dbops
 import (
 	"strconv"
 	"sync"
-	"vedio/defs"
+
+	"github.com/csh995426531/go_vedio/api/defs"
 )
 
 // InsertSession 写入session

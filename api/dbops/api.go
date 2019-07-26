@@ -4,8 +4,9 @@ import (
 	"database/sql"
 	"log"
 	"time"
-	"vedio/defs"
-	"vedio/utils"
+
+	"github.com/csh995426531/go_vedio/api/defs"
+	"github.com/csh995426531/go_vedio/api/utils"
 )
 
 // AddUserCredential 添加用户
