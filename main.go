@@ -1,13 +1,16 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
 )
 
-// RegisterHandlers 注册处理
+type middleWareHandler struct {
+	r *httprouter.Router
+}
+
+// RegisterHandlers 注册处理方法
 // *httprouter.Router
 func RegisterHandlers() *httprouter.Router {
 	router := httprouter.New()
@@ -21,15 +24,14 @@ func RegisterHandlers() *httprouter.Router {
 	return router
 }
 
-func main() {
-	fmt.Println("start")
-	r := RegisterHandlers()
-	http.ListenAndServe(":8088", r)
-	fmt.Println("end")
-}
-	return new
+// newMiddleWareHandler 新的处理方法
+func newMiddleWareHandler(r *httprouter.Router) http.Handler {
+	var m middleWareHandler
+	m.r = r
+	return m
 }
 
+// 拦截 httprouter.Router 包的 ServeHTTP 方法
 func (m middleWareHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	//check session
 	ValidateUserSession(r)
