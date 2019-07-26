@@ -8,6 +8,7 @@ import (
 
 	"github.com/csh995426531/go_vedio/api/dbops"
 	"github.com/csh995426531/go_vedio/api/defs"
+	"github.com/csh995426531/go_vedio/api/session"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -28,6 +29,18 @@ func CreateUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		return
 	}
 
+	if sid, err := session.GenerateNewSessionID(ubody.Username); err != nil {
+		sendErrorResponse(w, defs.ErrorSessionError)
+		return
+	}
+
+	su := defs.SignedUp{Success: true, SessionId: sid}
+
+	if res, err := json.Marshal(&su); err != nil {
+		sendErrorResponse(w, defs.ErrorInternalFaults)
+		return
+	}
+	sendNormalResponse(w, string(resp), 201)
 }
 
 // Login 用户登录

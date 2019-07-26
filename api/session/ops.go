@@ -33,15 +33,17 @@ func nowInMilli() int64 {
 }
 
 //GenerateNewSessionID 生成新的session
-func GenerateNewSessionID(username string) string {
+func GenerateNewSessionID(username string) (string, error) {
 	id, _ := utils.NewUUID()
 	ct := nowInMilli()
 	ttl := ct + 30*60*1000
 
 	temp := &defs.SimpleSession{Username: username, TTL: ttl}
 	sessionMap.Store(id, temp)
-	dbops.InsertSession(id, ttl, username)
-	return id
+	if err := dbops.InsertSession(id, ttl, username); err != nil {
+		return "", err
+	}
+	return id, nil
 }
 
 //IsSessionExpired 是否过期

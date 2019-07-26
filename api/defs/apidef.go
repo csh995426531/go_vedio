@@ -6,6 +6,11 @@ type UserCredential struct {
 	Pwd      string `json:"pwd"`
 }
 
+type SignedUp struct {
+	Success bool `json:"success"`
+	SessionId string `json:"session_id"` 
+}
+
 //VedioInfo 视频信息
 type VedioInfo struct {
 	Id           string

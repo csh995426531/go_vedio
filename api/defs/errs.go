@@ -21,4 +21,6 @@ var (
 	ErrorDBError = ErrResponse{HttpSC: 500, Error: Err{Error: "DB ops failed", ErrorCode: "003"}}
 	// ErrorInternalFaults 内部故障
 	ErrorInternalFaults = ErrResponse{HttpSC: 500, Error: Err{Error: "Internal service error", ErrorCode: "004"}}
+	// ErrorSessionError Session处理错误
+	ErrorSessionError = ErrResponse(HttpSC: 500, Error: Err{Error: "Session handler error", ErrorCode: "005"})
 )
