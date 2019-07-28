@@ -13,7 +13,7 @@ import (
 )
 
 // CreateUser 创建用户
-func CreateUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+func CreateUser(w http.ResponseWriter, r *http.Request, p httprouter.Params)    {
 	// io.WriteString(w, "create user hander")
 
 	res, _ := ioutil.ReadAll(r.Body)
