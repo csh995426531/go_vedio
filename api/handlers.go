@@ -13,7 +13,7 @@ import (
 )
 
 // CreateUser 创建用户
-func CreateUser(w http.ResponseWriter, r *http.Request, p httprouter.Params)    {
+func CreateUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	// io.WriteString(w, "create user hander")
 
 	res, _ := ioutil.ReadAll(r.Body)
@@ -24,12 +24,13 @@ func CreateUser(w http.ResponseWriter, r *http.Request, p httprouter.Params)    
 		return
 	}
 
-	if err = dbops.AddUserCredential(ubody.Username, ubody.Pwd); err != nil {
+	if err := dbops.AddUserCredential(ubody.Username, ubody.Pwd); err != nil {
 		sendErrorResponse(w, defs.ErrorDBError)
 		return
 	}
 
-	if sid, err := session.GenerateNewSessionID(ubody.Username); err != nil {
+	sid, err := session.GenerateNewSessionID(ubody.Username)
+	if err != nil {
 		sendErrorResponse(w, defs.ErrorSessionError)
 		return
 	}
@@ -59,12 +60,13 @@ func Login(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		return
 	}
 
-	if sid, err := session.GenerateNewSessionID(ubody.Username); err != nil {
+	sid, err := session.GenerateNewSessionID(ubody.Username)
+	if err != nil {
 		sendErrorResponse(w, defs.ErrorSessionError)
 		return
 	}
 
-	su := desf.SignedUp{Success: true, SessionId: sid}
+	su := defs.SignedUp{Success: true, SessionId: sid}
 
 	if res, err = json.Marshal(&su); err != nil {
 		sendErrorResponse(w, defs.ErrorInternalFaults)
