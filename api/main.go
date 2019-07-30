@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/julienschmidt/httprouter" //绑定uri
@@ -26,7 +27,7 @@ func RegisterHandlers() *httprouter.Router {
 
 // newMiddleWareHandler 新的处理方法
 func newMiddleWareHandler(r *httprouter.Router) http.Handler {
-	var m middleWareHandler
+	m := middleWareHandler{}
 	m.r = r
 	return m
 }
@@ -40,9 +41,10 @@ func (m middleWareHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-
+	fmt.Print("start\n")
 	r := RegisterHandlers()
 	handler := newMiddleWareHandler(r)
-	http.ListenAndServe(":8088", handler)
+	http.ListenAndServe(":8000", handler)
 
+	fmt.Print("end\n")
 }

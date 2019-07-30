@@ -23,4 +23,6 @@ var (
 	ErrorInternalFaults = ErrResponse{HttpSC: 500, Error: Err{Error: "Internal service error", ErrorCode: "004"}}
 	// ErrorSessionError Session处理错误
 	ErrorSessionError = ErrResponse{HttpSC: 500, Error: Err{Error: "Session handler error", ErrorCode: "005"}}
+	// ErrorUserAlreadyExsitsError  用户已存在
+	ErrorUserAlreadyExsitsError = ErrResponse{HttpSC: 403, Error: Err{Error: "User already exsits", ErrorCode: "006"}}
 )

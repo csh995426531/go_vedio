@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"io"
 	"io/ioutil"
 	"net/http"
 
@@ -21,6 +20,17 @@ func CreateUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	if err := json.Unmarshal(res, &ubody); err != nil {
 		sendErrorResponse(w, defs.ErrorRequestBodyParseFaild)
+		return
+	}
+
+	pwd, err := dbops.GetUserCredential(ubody.Username)
+	if err != nil {
+		sendErrorResponse(w, defs.ErrorDBError)
+		return
+	}
+
+	if len(pwd) > 0 {
+		sendErrorResponse(w, defs.ErrorUserAlreadyExsitsError)
 		return
 	}
 
@@ -77,5 +87,25 @@ func Login(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 // DeleteUser 用户注销
 func DeleteUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	io.WriteString(w, "delete user")
+
+	res, _ := ioutil.ReadAll(r.Body)
+	ubody := defs.UserCredential{}
+
+	if err := json.Unmarshal(res, &ubody); err != nil {
+		sendErrorResponse(w, defs.ErrorRequestBodyParseFaild)
+		return
+	}
+
+	if err := dbops.DeleteUserCredential(ubody.Username, ubody.Pwd); err != nil {
+		sendErrorResponse(w, defs.ErrorDBError)
+		return
+	}
+
+	sid := r.Header.Get(HeaderFieldSession)
+
+	if len(sid) > 0 {
+		session.DeleteSession(sid)
+	}
+
+	sendNormalResponse(w, "success", 200)
 }
