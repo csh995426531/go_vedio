@@ -19,5 +19,8 @@ func sendErrorResponse(w http.ResponseWriter, errResp defs.ErrResponse) {
 // sendNormalResponse 设置正常响应
 func sendNormalResponse(w http.ResponseWriter, resp string, sc int) {
 	w.WriteHeader(sc)
-	io.WriteString(w, resp)
+
+	res := defs.Normal{Data: "", Msg: resp}
+	resStr, _ := json.Marshal(&res)
+	io.WriteString(w, string(resStr))
 }

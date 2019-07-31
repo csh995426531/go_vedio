@@ -2,6 +2,7 @@ package dbops
 
 import (
 	"database/sql"
+	"errors"
 	"log"
 	"time"
 
@@ -48,10 +49,15 @@ func DeleteUserCredential(loginName string, pwd string) error {
 		log.Printf("%s", err)
 		return err
 	}
-	_, err = stmtDel.Exec(loginName, pwd)
+	res, err := stmtDel.Exec(loginName, pwd)
 	if err != nil {
 		return err
 	}
+	if delNum, _ := res.RowsAffected(); delNum != 1 {
+		err := errors.New("This user delete fail")
+		return err
+	}
+
 	defer stmtDel.Close()
 	return nil
 }
