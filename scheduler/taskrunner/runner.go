@@ -1,5 +1,6 @@
 package taskrunner
 
+// Runner 任务处理器
 type Runner struct {
 	Controller controlChan
 	Error      controlChan
@@ -10,6 +11,7 @@ type Runner struct {
 	Executor   fn
 }
 
+// NewRunner 新建任务处理器
 func NewRunner(size int, longLived bool, d fn, e fn) *Runner {
 	return &Runner{
 		Controller: make(chan string, 1),
@@ -22,6 +24,7 @@ func NewRunner(size int, longLived bool, d fn, e fn) *Runner {
 	}
 }
 
+// NewRunner 执行处理逻辑
 func (r *Runner) startDispatch() {
 	defer func() {
 		if !r.longLived {
@@ -62,6 +65,7 @@ func (r *Runner) startDispatch() {
 	}
 }
 
+// StartAll 开启任务处理器
 func (r *Runner) StartAll() {
 	r.Controller <- READY_TO_DISPATCH
 	r.startDispatch()

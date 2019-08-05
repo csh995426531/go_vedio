@@ -9,7 +9,7 @@ import (
 	"github.com/csh995426531/go_vedio/scheduler/dbops"
 )
 
-// 生产待处理任务插入data chan
+// VideoClearDispatcher 生产待处理任务插入data chan
 func VideoClearDispatcher(dc dataChan) error {
 	res, err := dbops.ReadVideoDeletionRecord(3)
 	if err != nil {
@@ -45,6 +45,7 @@ func VideoClearExecutor(dc dataChan) error {
 						errMap.Store(id, err)
 						return
 					}
+					log.Printf("del video id: %v successful", id)
 				}(vid.(string))
 			default:
 				break forloop
@@ -61,6 +62,7 @@ func VideoClearExecutor(dc dataChan) error {
 	return err
 }
 
+// deleteVideo 删除视频文件
 func deleteVideo(vid string) error {
 	err := os.Remove(VIDEO_PATH + vid)
 	if err != nil && !os.IsNotExist(err) {
