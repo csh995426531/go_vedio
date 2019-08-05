@@ -6,9 +6,15 @@ type UserCredential struct {
 	Pwd      string `json:"pwd"`
 }
 
+// Pwd 密码
+type Pwd struct {
+	Pwd string `json:"pwd"`
+}
+
+// SignedUp 已登录
 type SignedUp struct {
-	Success bool `json:"success"`
-	SessionId string `json:"session_id"` 
+	Success   bool   `json:"success"`
+	SessionId string `json:"session_id"`
 }
 
 //VedioInfo 视频信息

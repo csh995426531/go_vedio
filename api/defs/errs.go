@@ -12,6 +12,12 @@ type ErrResponse struct {
 	Error  Err
 }
 
+// Normal 正常
+type Normal struct {
+	Data string `json:"data"`
+	Msg  string `json:"msg"`
+}
+
 var (
 	// ErrorRequestBodyParseFaild 请求内容解析失败
 	ErrorRequestBodyParseFaild = ErrResponse{HttpSC: 400, Error: Err{Error: "request body parse fail", ErrorCode: "001"}}
@@ -23,4 +29,6 @@ var (
 	ErrorInternalFaults = ErrResponse{HttpSC: 500, Error: Err{Error: "Internal service error", ErrorCode: "004"}}
 	// ErrorSessionError Session处理错误
 	ErrorSessionError = ErrResponse{HttpSC: 500, Error: Err{Error: "Session handler error", ErrorCode: "005"}}
+	// ErrorUserAlreadyExsitsError  用户已存在
+	ErrorUserAlreadyExsitsError = ErrResponse{HttpSC: 403, Error: Err{Error: "User already exsits", ErrorCode: "006"}}
 )
